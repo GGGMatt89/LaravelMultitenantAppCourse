@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Scopes\TenantScope;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy; // to be included to use the ScopedBy attribute for the class
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,6 +12,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
+#[ScopedBy([TenantScope::class])]
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -51,6 +54,15 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+
+    /**
+     * The "booted" method of the model.
+     */
+//    protected static function booted(): void
+//    {
+//        static::addGlobalScope(new TenantScope);
+//    } => equivalent to the ScopedBy attribute assigned to the class
 
     /**
      * Get the attributes that should be cast.
