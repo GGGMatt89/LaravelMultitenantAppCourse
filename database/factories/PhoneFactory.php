@@ -1,14 +1,14 @@
 <?php
 
-namespace {{ factoryNamespace }};
+namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Tenant;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\{{ namespacedModel }}>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Phone>
  */
-class {{ factory }}Factory extends Factory
+class PhoneFactory extends Factory
 {
     /**
      * Define the model's default state.

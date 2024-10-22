@@ -2,10 +2,25 @@
 
 namespace {{ namespace }};
 
+use App\Models\Scopes\TenantScope;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 {{ factoryImport }}
 use Illuminate\Database\Eloquent\Model;
 
+#[ScopedBy([TenantScope::class])]
 class {{ class }} extends Model
 {
     {{ factory }}
+
+    /**
+    * The "booted" method of the model.
+    */
+    protected static function booted(): void
+    {
+        static::creating(function ($model){
+            if(session()->has('tenant_id')) {
+                $model->tenant_id = session()->get('tenant_id');
+            }
+        });
+    }
 }

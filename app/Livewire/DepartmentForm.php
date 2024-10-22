@@ -7,7 +7,16 @@ use Livewire\Component;
 
 class DepartmentForm extends Component
 {
-    public $name="Mattia";
+    public $name="Accounting";
+    public $success=false;
+
+    public function submit()
+    {
+        Department::create([
+            'name' => $this->name
+        ]);
+        $this->success = true;
+    }
 
     public function mount($departmentId = null)
     {

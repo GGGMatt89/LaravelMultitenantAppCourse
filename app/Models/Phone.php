@@ -4,16 +4,18 @@ namespace App\Models;
 
 use App\Models\Scopes\TenantScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 #[ScopedBy([TenantScope::class])]
-class Department extends Model
+class Phone extends Model
 {
-    protected $guarded = [];
+    /** @use HasFactory<\Database\Factories\PhoneFactory> */
+    use HasFactory;
 
     /**
-     * The "booted" method of the model.
-     */
+    * The "booted" method of the model.
+    */
     protected static function booted(): void
     {
         static::creating(function ($model){
