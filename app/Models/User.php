@@ -3,8 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\Scopes\TenantScope;
-use Illuminate\Database\Eloquent\Attributes\ScopedBy; // to be included to use the ScopedBy attribute for the class
+// use App\Models\Scopes\TenantScope;
+// use Illuminate\Database\Eloquent\Attributes\ScopedBy; // to be included to use the ScopedBy attribute for the class
+use App\Traits\BelongsToTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,7 +13,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
-#[ScopedBy([TenantScope::class])]
+//#[ScopedBy([TenantScope::class])] -> in trait
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -22,6 +23,7 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use BelongsToTenant;
 
     /**
      * The attributes that are mass assignable.
@@ -61,8 +63,13 @@ class User extends Authenticatable
      */
 //    protected static function booted(): void
 //    {
-//        static::addGlobalScope(new TenantScope);
-//    } => equivalent to the ScopedBy attribute assigned to the class
+//        static::addGlobalScope(new TenantScope); // => equivalent to the ScopedBy attribute assigned to the class
+//        static::creating(function ($model){
+//            if(session()->has('tenant_id')) {
+//                $model->tenant_id = session()->get('tenant_id');
+//            }
+//        });
+//    } -> all transferred to trait
 
     /**
      * Get the attributes that should be cast.
