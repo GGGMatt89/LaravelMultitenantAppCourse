@@ -9,10 +9,11 @@ class HomeController extends Controller
 
     public function show()
     {
-        if(!auth()->check()) {
-            return view('welcome');
-        } else {
+        if(auth()->user()){
             return view('dashboard');
+        }
+        else {
+            return view('welcome');
         }
     }
 }
